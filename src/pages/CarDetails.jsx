@@ -1,26 +1,50 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
-import { Loader } from '../components'
+import Loader from '../components/Loader'
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+
+// Функция форматирования месяца и года
+const formatYearMonth = (yearMonth) => {
+	if (!yearMonth || yearMonth.length !== 6) return 'Неизвестная дата' // Проверяем, что yearMonth корректный
+
+	const months = [
+		'Январь',
+		'Февраль',
+		'Март',
+		'Апрель',
+		'Май',
+		'Июнь',
+		'Июль',
+		'Август',
+		'Сентябрь',
+		'Октябрь',
+		'Ноябрь',
+		'Декабрь',
+	]
+	const year = yearMonth.substring(0, 4)
+	const month = parseInt(yearMonth.substring(4, 6)) - 1
+
+	return months[month] ? `${months[month]} ${year}` : 'Неизвестная дата'
+}
 
 const CarDetails = () => {
-	const { id } = useParams() // Получаем ID автомобиля из URL
+	const { id } = useParams()
 	const [car, setCar] = useState(null)
 	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState(null)
 
 	useEffect(() => {
 		const fetchCarDetails = async () => {
-			setLoading(true)
 			try {
-				const response = await axios.get(
-					`https://api.encar.com/v1/readside/inspection/vehicle/${id}`,
+				const response = await fetch(
+					`https://api.encar.com/v1/readside/vehicle/${id}`,
 				)
-				console.log(response.data)
-
-				setCar(response.data)
-			} catch (err) {
-				setError('Ошибка при загрузке данных')
+				const data = await response.json()
+				console.log(data)
+				setCar(data)
+			} catch (error) {
+				console.error('Ошибка загрузки данных', error)
 			} finally {
 				setLoading(false)
 			}
@@ -30,53 +54,97 @@ const CarDetails = () => {
 	}, [id])
 
 	if (loading) return <Loader />
-	if (error) return <p className='text-center text-red-500'>{error}</p>
-	if (!car) return <p className='text-center'>Автомобиль не найден</p>
+	if (!car)
+		return <p className='text-center text-xl text-red-500'>Авто не найдено</p>
 
 	// Извлекаем данные
-	const { master, images } = car
-	const { detail } = master
+	const {
+		advertisement: { price },
+		category: {
+			yearMonth,
+			manufacturerEnglishName,
+			modelGroupEnglishName,
+			gradeEnglishName,
+			gradeDetailEnglishName,
+		},
+		spec: { mileage, displacement, fuelName },
+		photos,
+	} = car
+
+	const formattedCarFuelType =
+		fuelName && fuelName === '가솔린'
+			? 'Бензин'
+			: fuelName === '디젤'
+			? 'Дизель'
+			: fuelName.includes('LPG')
+			? 'Газ'
+			: fuelName === '가솔린+전기'
+			? 'Гибрид'
+			: ''
 
 	return (
-		<section className='py-12 bg-gray-100'>
-			<div className='container mx-auto px-6'>
-				{/* Заголовок */}
-				<h2 className='text-4xl font-bold text-primary text-center mb-8'>
-					{detail.modelYear} {master.supplyNum}
-				</h2>
+		<div className='container mx-auto px-6 py-12'>
+			{/* Заголовок */}
+			<h1 className='text-2xl md:text-3xl font-bold text-center text-gray-900'>
+				{manufacturerEnglishName.toUpperCase()}{' '}
+				{modelGroupEnglishName.toUpperCase()}{' '}
+				{gradeDetailEnglishName.toUpperCase()}
+				<br />
+				{gradeEnglishName.toUpperCase()}
+			</h1>
 
-				{/* Фото автомобиля */}
-				<div className='flex justify-center gap-4'>
-					{images.map((img, index) => (
-						<img
-							key={index}
-							src={`https://ci.encar.com${img.path}`}
-							alt={img.title}
-							className='w-1/2 md:w-1/3 rounded-xl shadow-lg'
-						/>
-					))}
-				</div>
-
-				{/* Основные характеристики */}
-				<div className='mt-8 bg-white p-6 rounded-lg shadow-md'>
-					<h3 className='text-2xl font-bold text-gray-900'>Характеристики</h3>
-					<p className='text-lg text-gray-700'>VIN: {detail.vin}</p>
-					<p className='text-lg text-gray-700'>Двигатель: {detail.motorType}</p>
-					<p className='text-lg text-gray-700'>
-						Пробег: {detail.mileage.toLocaleString()} км
-					</p>
-					<p className='text-lg text-gray-700'>
-						Дата регистрации: {detail.firstRegistrationDate}
-					</p>
-					<p className='text-lg text-gray-700'>
-						Гарантия: {detail.guarantyType.title}
-					</p>
-					<p className='text-lg text-gray-700'>
-						Состояние: {detail.carStateType.title}
-					</p>
-				</div>
+			{/* Карусель изображений */}
+			<div className='mt-8 mb-20'>
+				<Slider
+					// dots={true}
+					infinite={true}
+					arrows={true}
+					speed={600}
+					slidesToShow={1}
+					slidesToScroll={1}
+					autoplay={true}
+					autoplaySpeed={3000}
+					className='max-w-4xl mx-auto'
+				>
+					{photos?.map((photo, index) => {
+						return (
+							<div key={index}>
+								<img
+									src={`https://ci.encar.com${photo.path}`}
+									alt={`Car ${index}`}
+									className='w-full h-auto object-cover rounded-xl shadow-lg'
+								/>
+							</div>
+						)
+					})}
+				</Slider>
 			</div>
-		</section>
+
+			{/* Информация */}
+			<div className='mt-10 bg-white shadow-xl p-6 rounded-xl max-w-2xl mx-auto'>
+				<h2 className='text-2xl font-bold text-gray-900 mb-4'>
+					Характеристики
+				</h2>
+				<ul className='text-lg text-gray-700 space-y-2'>
+					<li>
+						<b>Цена:</b> {(price * 10000).toLocaleString()} KRW
+					</li>
+					<li>
+						<b>Пробег:</b> {mileage.toLocaleString()} км
+					</li>
+					<li>
+						<b>Объём двигателя:</b> {(displacement / 1000).toFixed(1)} л
+					</li>
+					<li>
+						<b>Топливо:</b> {formattedCarFuelType}
+					</li>
+					<li>
+						<b>Дата регистрации: </b>
+						{formatYearMonth(yearMonth)}
+					</li>
+				</ul>
+			</div>
+		</div>
 	)
 }
 

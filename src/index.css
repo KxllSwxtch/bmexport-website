@@ -9,3 +9,7 @@
 		@apply flex-1;
 	}
 }
+
+body {
+	padding-top: 50px;
+}

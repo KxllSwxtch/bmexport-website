@@ -1,25 +1,43 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [showNavbar, setShowNavbar] = useState(false)
 	const [lastScrollY, setLastScrollY] = useState(0)
+	const location = useLocation()
 
 	useEffect(() => {
-		const handleScroll = () => {
-			if (window.scrollY > 100) {
-				setShowNavbar(true)
-			} else {
-				setShowNavbar(false)
-			}
-			setLastScrollY(window.scrollY)
-		}
+		if (location.pathname === '/') {
+			let lastScrollY = window.scrollY
+			let timeout = null
 
-		window.addEventListener('scroll', handleScroll)
-		return () => window.removeEventListener('scroll', handleScroll)
-	}, [])
+			const handleScroll = () => {
+				// Устанавливаем минимальное значение скролла (например, 50px), чтобы Navbar не исчезал моментально
+				if (window.scrollY > 50) {
+					if (window.scrollY > lastScrollY) {
+						setShowNavbar(true) // Показываем при скролле вниз
+					} else {
+						// Добавляем задержку перед скрытием (200ms)
+						clearTimeout(timeout)
+						timeout = setTimeout(() => {
+							setShowNavbar(false)
+						}, 200)
+					}
+				}
+				lastScrollY = window.scrollY
+			}
+
+			window.addEventListener('scroll', handleScroll)
+			return () => {
+				window.removeEventListener('scroll', handleScroll)
+				clearTimeout(timeout)
+			}
+		} else {
+			setShowNavbar(true) // На других страницах Navbar всегда виден
+		}
+	}, [location.pathname])
 
 	return (
 		<>
