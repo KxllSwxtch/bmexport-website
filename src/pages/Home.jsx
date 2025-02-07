@@ -1,5 +1,6 @@
 import {
 	AboutSection,
+	FAQSection,
 	HeroSection,
 	PopularCarsSection,
 	ProcessSection,
@@ -12,6 +13,7 @@ const Home = () => {
 			<AboutSection />
 			<ProcessSection />
 			<PopularCarsSection />
+			<FAQSection />
 		</>
 	)
 }

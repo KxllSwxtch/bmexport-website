@@ -4,6 +4,7 @@ import Footer from './Footer'
 import ProcessSection from './ProcessSection'
 import AboutSection from './AboutSection'
 import PopularCarsSection from './PopularCarsSection'
+import FAQSection from './FAQSection'
 
 export {
 	HeroSection,
@@ -12,4 +13,5 @@ export {
 	ProcessSection,
 	AboutSection,
 	PopularCarsSection,
+	FAQSection,
 }
