@@ -1,10 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import { Home, About, CarList, Contacts, Reviews, CarDetails } from './pages/'
-import { Footer, Navbar } from './components'
+import { Footer, Navbar, ScrollToTop } from './components'
 
 const App = () => {
 	return (
 		<div className='bg-light min-h-screen'>
+			<ScrollToTop />
 			<Navbar />
 			<Routes>
 				<Route path='/' element={<Home />} />

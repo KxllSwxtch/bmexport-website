@@ -5,6 +5,9 @@ import ProcessSection from './ProcessSection'
 import AboutSection from './AboutSection'
 import PopularCarsSection from './PopularCarsSection'
 import FAQSection from './FAQSection'
+import CarListItem from './CarListItem'
+import Loader from './Loader'
+import ScrollToTop from './ScrollToTop'
 
 export {
 	HeroSection,
@@ -14,4 +17,7 @@ export {
 	AboutSection,
 	PopularCarsSection,
 	FAQSection,
+	CarListItem,
+	Loader,
+	ScrollToTop,
 }

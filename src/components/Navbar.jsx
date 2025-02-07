@@ -46,18 +46,22 @@ const Navbar = () => {
 
 					{/* Десктопное меню */}
 					<div className='hidden md:flex space-x-6 text-lg font-semibold'>
-						{['Главная', 'Каталог', 'О нас', 'Контакты', 'Отзывы'].map(
-							(item, index) => (
-								<Link
-									key={index}
-									to={item === 'Главная' ? '/' : `/${item.toLowerCase()}`}
-									className='relative transition hover:text-primary'
-								>
-									{item}
-									<span className='absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 hover:w-full'></span>
-								</Link>
-							),
-						)}
+						{[
+							{ path: '/', name: 'Главная' },
+							{ path: '/catalog', name: 'Каталог' },
+							{ path: 'about-us', name: 'О нас' },
+							{ path: '/contacts', name: 'Контакты' },
+							{ path: '/reviews', name: 'Отзывы' },
+						].map((item, index) => (
+							<Link
+								key={index}
+								to={item === 'Главная' ? '/' : `${item.path}`}
+								className='relative transition hover:text-primary'
+							>
+								{item.name}
+								<span className='absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 hover:w-full'></span>
+							</Link>
+						))}
 					</div>
 
 					{/* Бургер-меню (мобильная версия) */}
