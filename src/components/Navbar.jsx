@@ -1,14 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false)
+	const [showNavbar, setShowNavbar] = useState(false)
+	const [lastScrollY, setLastScrollY] = useState(0)
+
+	useEffect(() => {
+		const handleScroll = () => {
+			if (window.scrollY > 100) {
+				setShowNavbar(true)
+			} else {
+				setShowNavbar(false)
+			}
+			setLastScrollY(window.scrollY)
+		}
+
+		window.addEventListener('scroll', handleScroll)
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [])
 
 	return (
 		<>
 			{/* Фиксированный Navbar */}
-			<nav className='fixed top-0 left-0 w-full bg-white/80 backdrop-blur-lg shadow-lg z-50'>
+			<nav
+				className={`fixed top-0 left-0 w-full bg-white/80 backdrop-blur-lg shadow-lg z-50 transition-transform duration-300 ${
+					showNavbar
+						? 'translate-y-0 opacity-100'
+						: '-translate-y-full opacity-0'
+				}`}
+			>
 				<div className='container mx-auto px-6 py-4 flex justify-between items-center'>
 					{/* Логотип */}
 					<Link
@@ -47,9 +69,6 @@ const Navbar = () => {
 					</button>
 				</div>
 			</nav>
-
-			{/* Отступ для контента, чтобы Navbar не перекрывал страницу */}
-			<div className='mt-20'></div>
 
 			{/* Анимированное мобильное меню */}
 			<div

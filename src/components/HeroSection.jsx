@@ -23,7 +23,7 @@ const HeroSection = () => {
 	}
 
 	return (
-		<div className='relative min-h-screen bg-gradient-to-br from-white to-gray-100 flex flex-col items-center text-center px-6'>
+		<div className='relative min-h-screen bg-white flex flex-col items-center text-center px-6'>
 			{/* Логотип */}
 			<motion.img
 				src='https://res.cloudinary.com/pomegranitedesign/image/upload/v1738886297/bmexport/logo.png'
