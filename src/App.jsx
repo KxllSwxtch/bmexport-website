@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { Home, About, CarList, Contacts, Reviews, CarDetails } from './pages/'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import { Footer, Navbar } from './components'
 
 const App = () => {
 	return (
