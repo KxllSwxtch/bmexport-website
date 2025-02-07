@@ -1,9 +1,10 @@
-import { HeroSection, ProcessSection } from '../components'
+import { AboutSection, HeroSection, ProcessSection } from '../components'
 
 const Home = () => {
 	return (
 		<>
 			<HeroSection />
+			<AboutSection />
 			<ProcessSection />
 		</>
 	)

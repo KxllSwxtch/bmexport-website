@@ -14,7 +14,7 @@ const Footer = () => {
 						<img
 							src='https://res.cloudinary.com/pomegranitedesign/image/upload/v1738886297/bmexport/logo.png'
 							alt='BMExport Logo'
-							className='w-36 h-16'
+							className='w-30 h-16'
 						/>
 					</Link>
 					<p className='text-gray-400 mt-3 text-sm max-w-xs'>
