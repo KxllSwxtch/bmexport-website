@@ -1,4 +1,9 @@
-import { AboutSection, HeroSection, ProcessSection } from '../components'
+import {
+	AboutSection,
+	HeroSection,
+	PopularCarsSection,
+	ProcessSection,
+} from '../components'
 
 const Home = () => {
 	return (
@@ -6,6 +11,7 @@ const Home = () => {
 			<HeroSection />
 			<AboutSection />
 			<ProcessSection />
+			<PopularCarsSection />
 		</>
 	)
 }
