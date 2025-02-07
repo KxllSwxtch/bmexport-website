@@ -1,2 +1,11 @@
 @import 'tailwindcss';
 @tailwind utilities;
+
+@layer base {
+	#root {
+		@apply flex flex-col min-h-screen;
+	}
+	main {
+		@apply flex-1;
+	}
+}

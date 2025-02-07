@@ -56,7 +56,7 @@ const PopularCarsSection = () => {
 			<div className='container mx-auto px-6 text-center relative z-10'>
 				{/* Заголовок */}
 				<motion.h2
-					className='text-5xl font-extrabold text-white mb-12 tracking-wide uppercase'
+					className='text-3xl font-extrabold text-white mb-12 tracking-wide uppercase'
 					initial={{ opacity: 0, y: -30 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}

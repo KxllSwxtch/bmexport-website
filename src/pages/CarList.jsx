@@ -46,24 +46,26 @@ const CarList = () => {
 				</h2>
 
 				{/* Фильтр по типу авто */}
-				<div className='flex justify-center space-x-4 mb-8'>
+				<div className='flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6 mt-6 mb-6 md:mb-10'>
 					<button
-						className={`relative px-8 py-3 rounded-full font-semibold shadow-lg transition-all transform ${
-							carType === 'korean'
-								? 'bg-gradient-to-r from-orange-500 to-red-500 text-white scale-105 shadow-2xl'
-								: 'bg-gray-300 text-gray-800 hover:bg-gray-400'
-						} active:scale-95`}
+						className={`cursor-pointer w-full md:w-auto px-8 py-4 rounded-full font-semibold shadow-lg transition-all text-lg flex items-center justify-center
+      ${
+				carType === 'korean'
+					? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-orange-500/50'
+					: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+			}`}
 						onClick={() => setCarType('korean')}
 					>
 						🇰🇷 Корейские авто
 					</button>
 
 					<button
-						className={`relative px-8 py-3 rounded-full font-semibold shadow-lg transition-all transform ${
-							carType === 'foreign'
-								? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-105 shadow-2xl'
-								: 'bg-gray-300 text-gray-800 hover:bg-gray-400'
-						} active:scale-95`}
+						className={`cursor-pointer w-full md:w-auto px-8 py-4 rounded-full font-semibold shadow-lg transition-all text-lg flex items-center justify-center
+      ${
+				carType === 'foreign'
+					? 'bg-gradient-to-r from-gray-500 to-gray-800 text-white shadow-gray-500/50'
+					: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+			}`}
 						onClick={() => setCarType('foreign')}
 					>
 						🌍 Иномарки
@@ -78,7 +80,7 @@ const CarList = () => {
 
 				{/* Список автомобилей */}
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-					{cars.map((car, index) => (
+					{cars?.map((car, index) => (
 						<CarListItem key={index} car={car} index={index} />
 					))}
 				</div>
