@@ -23,7 +23,7 @@ const HeroSection = () => {
 	}
 
 	return (
-		<div className='relative min-h-screen bg-white flex flex-col items-center text-center px-6'>
+		<div className='relative min-h-screen bg- flex flex-col items-center text-center px-6'>
 			{/* Логотип */}
 			<motion.img
 				src='https://res.cloudinary.com/pomegranitedesign/image/upload/v1738886297/bmexport/logo.png'
@@ -80,6 +80,36 @@ const HeroSection = () => {
 				</a>
 			</motion.div>
 
+			{/* Социальные сети */}
+			<motion.div
+				className='mt-10 flex space-x-6 text-3xl'
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ duration: 1, delay: 2 }}
+			>
+				<a
+					href='https://www.instagram.com/big.motors.export/'
+					target='_blank'
+					className='text-pink-500 hover:scale-110 transition'
+				>
+					<FaInstagram />
+				</a>
+				<a
+					href='https://t.me/Big_motors_korea'
+					target='_blank'
+					className='text-blue-500 hover:scale-110 transition'
+				>
+					<FaTelegramPlane />
+				</a>
+				<a
+					href='https://wa.me/821075834466'
+					target='_blank'
+					className='text-green-500 hover:scale-110 transition'
+				>
+					<FaWhatsapp />
+				</a>
+			</motion.div>
+
 			{/* Блок преимуществ */}
 			<motion.div
 				className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-5xl'
@@ -127,36 +157,6 @@ const HeroSection = () => {
 						</div>
 					))}
 				</Slider>
-			</motion.div>
-
-			{/* Социальные сети */}
-			<motion.div
-				className='mt-10 flex space-x-6 text-3xl'
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 1, delay: 2 }}
-			>
-				<a
-					href='https://www.instagram.com/big.motors.export/'
-					target='_blank'
-					className='text-pink-500 hover:scale-110 transition'
-				>
-					<FaInstagram />
-				</a>
-				<a
-					href='https://t.me/Big_motors_korea'
-					target='_blank'
-					className='text-blue-500 hover:scale-110 transition'
-				>
-					<FaTelegramPlane />
-				</a>
-				<a
-					href='https://wa.me/821075834466'
-					target='_blank'
-					className='text-green-500 hover:scale-110 transition'
-				>
-					<FaWhatsapp />
-				</a>
 			</motion.div>
 		</div>
 	)
