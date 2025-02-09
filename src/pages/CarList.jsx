@@ -28,6 +28,7 @@ const CarList = () => {
 		}
 
 		fetchCars()
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}, [page])
 
 	if (loading) return <Loader />
@@ -41,18 +42,21 @@ const CarList = () => {
 
 			{/* Список автомобилей */}
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-				{cars.map((car, index) => (
-					<CarListItem key={car.ID} car={car} index={index} />
-				))}
+				{cars
+					.sort((a, b) => (a.MONTH > b.MONTH ? 1 : -1))
+					.map((car, index) => (
+						<CarListItem key={car.ID} car={car} index={index} />
+					))}
 			</div>
 
 			{/* Пагинация */}
-			<div className='flex justify-center mt-8 space-x-4'>
+			<div className='flex justify-center mt-10 space-x-2 items-center'>
+				{/* Кнопка "Назад" */}
 				<button
-					className={`px-4 py-2 rounded-md font-semibold shadow-md transition ${
+					className={`px-4 py-2 rounded-lg font-semibold shadow-md transition ${
 						page === 1
 							? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-							: 'bg-primary text-white hover:bg-red-600'
+							: 'bg-primary text-black hover:bg-red-600'
 					}`}
 					onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
 					disabled={page === 1}
@@ -60,23 +64,60 @@ const CarList = () => {
 					◀ Назад
 				</button>
 
-				{/* Отображаем страницы 1-5 */}
-				{[...Array(5)].map((_, i) => (
-					<button
-						key={i}
-						className={`px-4 py-2 rounded-md font-semibold shadow-md transition ${
-							page === i + 1
-								? 'bg-primary text-white'
-								: 'bg-gray-300 text-gray-800 hover:bg-gray-400'
-						}`}
-						onClick={() => setPage(i + 1)}
-					>
-						{i + 1}
-					</button>
-				))}
-
+				{/* Первая страница */}
 				<button
-					className='px-4 py-2 bg-primary text-white rounded-md font-semibold shadow-md transition hover:bg-red-600'
+					className={`px-4 py-2 rounded-lg font-semibold shadow-md transition ${
+						page === 1
+							? 'bg-primary text-black'
+							: 'bg-gray-300 text-gray-800 hover:bg-gray-400'
+					}`}
+					onClick={() => setPage(1)}
+				>
+					1
+				</button>
+
+				{/* Если текущая страница больше 4, показываем "..." */}
+				{page > 4 && <span className='px-2 text-gray-500'>...</span>}
+
+				{/* Отображаем 3 страницы до и 3 после текущей */}
+				{[...Array(5)].map((_, i) => {
+					const pageNumber = page - 2 + i
+					if (pageNumber > 1 && pageNumber < 100) {
+						return (
+							<button
+								key={pageNumber}
+								className={`cursor-pointer px-4 py-2 w-10 h-10 rounded-lg font-semibold shadow-md flex items-center justify-center transition ${
+									page === pageNumber
+										? 'bg-primary text-black'
+										: 'bg-gray-300 text-gray-800 hover:bg-gray-400'
+								}`}
+								onClick={() => setPage(pageNumber)}
+							>
+								{pageNumber}
+							</button>
+						)
+					}
+					return null
+				})}
+
+				{/* Если текущая страница меньше 96, показываем "..." перед 100 */}
+				{page < 96 && <span className='px-2 text-gray-500'>...</span>}
+
+				{/* Последняя страница */}
+				<button
+					className={`cursor-pointer px-4 py-2 rounded-lg font-semibold shadow-md transition ${
+						page === 100
+							? 'bg-primary text-white'
+							: 'bg-gray-300 text-gray-800 hover:bg-gray-400'
+					}`}
+					onClick={() => setPage(100)}
+				>
+					100
+				</button>
+
+				{/* Кнопка "Вперёд" */}
+				<button
+					className='cursor-pointer px-4 py-2 bg-primary text-white rounded-lg font-semibold shadow-md transition bg-red-500 hover:bg-red-600'
 					onClick={() => setPage((prev) => prev + 1)}
 				>
 					Вперёд ▶

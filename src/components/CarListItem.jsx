@@ -31,16 +31,8 @@ const CarListItem = ({ car, index }) => {
 
 	const formattedYearMonth = car?.MONTH
 
-	console.log(car?.LOT)
-
 	return (
-		<motion.div
-			className='bg-white shadow-xl overflow-hidden flex flex-col h-full'
-			initial={{ opacity: 0, y: 20 }}
-			whileInView={{ opacity: 1, y: 0 }}
-			viewport={{ once: true }}
-			transition={{ duration: 0.5, delay: index * 0.1 }}
-		>
+		<div className='bg-white shadow-xl overflow-hidden flex flex-col h-full'>
 			{/* Фото */}
 			<div className='relative'>
 				<img
@@ -73,7 +65,7 @@ const CarListItem = ({ car, index }) => {
 					</Link>
 				</div>
 			</div>
-		</motion.div>
+		</div>
 	)
 }
 
