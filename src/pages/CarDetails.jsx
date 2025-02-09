@@ -30,7 +30,7 @@ const formatYearMonth = (yearMonth) => {
 }
 
 const CarDetails = () => {
-	const { id } = useParams()
+	const { id: lot } = useParams() // Получаем LOT вместо ID
 	const [car, setCar] = useState(null)
 	const [loading, setLoading] = useState(true)
 
@@ -38,7 +38,7 @@ const CarDetails = () => {
 		const fetchCarDetails = async () => {
 			try {
 				const response = await fetch(
-					`https://api.encar.com/v1/readside/vehicle/${id}`,
+					`https://api.encar.com/v1/readside/vehicle/${lot}`,
 				)
 				const data = await response.json()
 				console.log(data)
@@ -51,7 +51,7 @@ const CarDetails = () => {
 		}
 
 		fetchCarDetails()
-	}, [id])
+	}, [lot])
 
 	if (loading) return <Loader />
 	if (!car)
@@ -72,7 +72,7 @@ const CarDetails = () => {
 	} = car
 
 	const formattedCarFuelType =
-		fuelName && fuelName === '가솔린'
+		fuelName === '가솔린'
 			? 'Бензин'
 			: fuelName === '디젤'
 			? 'Дизель'
@@ -84,11 +84,10 @@ const CarDetails = () => {
 
 	return (
 		<div className='container mx-auto px-6 py-12'>
-			{/* Заголовок */}
 			<h1 className='text-2xl md:text-3xl font-bold text-center text-gray-900'>
 				{manufacturerEnglishName.toUpperCase()}{' '}
 				{modelGroupEnglishName.toUpperCase()}{' '}
-				{gradeDetailEnglishName.toUpperCase()}
+				{gradeDetailEnglishName?.toUpperCase()}
 				<br />
 				{gradeEnglishName.toUpperCase()}
 			</h1>
@@ -96,7 +95,6 @@ const CarDetails = () => {
 			{/* Карусель изображений */}
 			<div className='mt-8 mb-20'>
 				<Slider
-					// dots={true}
 					infinite={true}
 					arrows={true}
 					speed={600}
@@ -106,17 +104,15 @@ const CarDetails = () => {
 					autoplaySpeed={3000}
 					className='max-w-4xl mx-auto'
 				>
-					{photos?.map((photo, index) => {
-						return (
-							<div key={index}>
-								<img
-									src={`https://ci.encar.com${photo.path}`}
-									alt={`Car ${index}`}
-									className='w-full h-auto object-cover rounded-xl shadow-lg'
-								/>
-							</div>
-						)
-					})}
+					{photos?.map((photo, index) => (
+						<div key={index}>
+							<img
+								src={`https://ci.encar.com${photo.path}`}
+								alt={`Car ${index}`}
+								className='w-full h-auto object-cover rounded-xl shadow-lg'
+							/>
+						</div>
+					))}
 				</Slider>
 			</div>
 
@@ -139,8 +135,7 @@ const CarDetails = () => {
 						<b>Топливо:</b> {formattedCarFuelType}
 					</li>
 					<li>
-						<b>Дата регистрации: </b>
-						{formatYearMonth(yearMonth)}
+						<b>Дата регистрации:</b> {formatYearMonth(yearMonth)}
 					</li>
 				</ul>
 			</div>
